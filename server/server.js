@@ -13,7 +13,7 @@ var express = require('express'),
   cookieParser = require('cookie-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/spenddb');
+mongoose.connect('mongodb://localhost/eventdb');
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
