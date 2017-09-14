@@ -22,7 +22,7 @@ const validators = {
   email: (strict, newValue, validationError) => {
     const value = newValue,
       valueLength = value && value.length
-    let regex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6}$/,
+    let regex = /^[a-zA-Z_0-9]+[.]?[a-zA-Z0-9]+@[a-zA-Z_0-9]+?\.[a-zA-Z]{2,6}$/,
       error = (strict || valueLength > 0) && !regex.test(value) &&
             (validationError || 'Please check email format')
     return error
