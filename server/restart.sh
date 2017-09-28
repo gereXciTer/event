@@ -1,0 +1,1 @@
+pkill -f node && node build/main.js &

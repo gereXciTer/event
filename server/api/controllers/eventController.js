@@ -1,11 +1,12 @@
 'use strict'
 
+const email = require('./emailController');
 var mongoose = require('mongoose'),
   Event = mongoose.model('Event'),
   Drop = mongoose.model('Drop'),
   Invite = mongoose.model('Invite'),
   User = mongoose.model('User');
-
+  
 exports.cleanup_events = function(req, res){
   Event.find().populate('owner').remove({owner: null}, function(err, data){
     var deletedEvents = data
@@ -84,8 +85,17 @@ exports.create_event = function(req, res){
       user.save(function(err, user){
         if(err)
           res.status(500).send(err)
-        else
+        else{
           res.json(event);
+          let eventUrl = email.getHostUrl(req) + '/event/' + event._id;
+          email.transporter.sendMail({
+            from: email.address.noreply,
+            to: user.email,
+            subject: 'You\'ve created new event',
+            text: 'Congrats, ' + user.name + '! \n You\'ve successfully created new event "' + event.name + '": ' + eventUrl + '. \n' + email.getHostUrl(req), 
+            html: '<p>Congrats, ' + user.name + '!</p> <p>You\'ve successfully created new event "<a href="' + eventUrl + '">' + event.name + '</a>" (' + eventUrl + ').</p>' 
+          })
+        }
       })
     })
   })

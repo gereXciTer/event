@@ -1,12 +1,5 @@
 const passport = require('passport') 
-const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
-const transporter = nodemailer.createTransport(smtpTransport({
-        host: 'localhost',
-        port: 25
-      }));
-const noreplyEmail = 'noreply@webgears.org';
-
+const email = require('./emailController')
 var mongoose = require('mongoose'),
   User = mongoose.model('User');
 
@@ -41,12 +34,12 @@ exports.signup = function(req, res, next) {
         res.status(401).send(err);
       }
       let name = req.body.name || 'Anon';
-      transporter.sendMail({
-        from: noreplyEmail,
+      email.transporter.sendMail({
+        from: email.address.noreply,
         to: req.body.email,
         subject: 'Registration confirmation at Split',
-        text: 'Congrats, ' + name + '! \n You\'ve successfully registered at Split. \n http://split.webgears.org', 
-        html: '<p>Congrats, ' + name + '!!</p> <p>You\'ve successfully registered at <a href="http://split.webgears.org">Split</a>.</p>' 
+        text: 'Congrats, ' + name + '! \n You\'ve successfully registered at Split. \n ' + email.getHostUrl(req), 
+        html: '<p>Congrats, ' + name + '!!</p> <p>You\'ve successfully registered at <a href="' + email.getHostUrl(req) + '">Split</a>.</p>' 
       })
         
       next();

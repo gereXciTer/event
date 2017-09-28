@@ -1,5 +1,6 @@
 'use strict'
 
+const email = require('./emailController');
 var mongoose = require('mongoose'),
   Event = mongoose.model('Event'),
   Invite = mongoose.model('Invite'),
@@ -80,7 +81,17 @@ exports.create_invite = function(req, res){
           res.send(err);
           return;
         }
-        //TODO: Send invite
+        let eventUrl = email.getHostUrl(req) + '/event/' + invite.event;
+        email.transporter.sendMail({
+          from: email.address.noreply,
+          to: invite.email,
+          subject: 'Invitation to Split',
+          text: 'You\'ve been invited to split expenses by ' + req.user.name + 
+                '! \n You can access list by following this link: ' + eventUrl + '. \n ' + email.getHostUrl(req), 
+          html: '<p>You\'ve been invited to split expenses by ' + req.user.name + '.</p>' + 
+                '<p>You can access list by following this <a href="' + eventUrl + '">link</a>.</p><p><a href="' + email.getHostUrl(req) + '">Split</a>.</p>' 
+        })
+  
         res.json(invite);
       })
     }
