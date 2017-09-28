@@ -4,7 +4,7 @@ const passport = require('passport'),
   User = mongoose.model('User');
 
 function findUser (email, callback) {
-  User.findOne({'email': email})
+  User.findOne({'email': email.toLowerCase()})
   .populate({path: 'friends', select: 'email name _id'})
   .exec(function(err, user){
     if(err){
