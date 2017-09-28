@@ -10,7 +10,6 @@ const transporter = nodemailer.createTransport(smtpTransport({
 exports.address = {
     noreply: 'noreply@webgears.org'
 }
-exports.hostUrl = 'http://split.webgears.org'
 exports.transporter = transporter
 exports.getHostUrl = function (req) {
     return req.protocol + '://' + req.get('host');
