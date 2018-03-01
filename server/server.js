@@ -13,7 +13,7 @@ var express = require('express'),
   cookieParser = require('cookie-parser');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/eventdb');
+mongoose.connect('mongodb://localhost/eventdb', {useMongoClient: true});
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://split.webgears.org");

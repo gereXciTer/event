@@ -47,21 +47,26 @@ config.resolve = {
 
 config.module = {}
 
-config.module.loaders = [
+config.module.rules = [
 
   // Use babel and eslint to build and validate JavaScript
   {
     test: /\.js$/,
     exclude: /node_modules/,
-    loaders: [
-      "babel-loader"
-    ],
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env']
+      }
+    },
   },
 
   // Allow loading of JSON files
   {
     test: /\.json$/,
-    loader: "json",
+    use: {
+      loader: "json"
+    }
   },
 ]
 
