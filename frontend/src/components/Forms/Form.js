@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Snackbar } from 'material-ui'
 
 import { initForm, resetForm, validateField } from '../../actions'
 
@@ -58,6 +59,11 @@ class Form extends Component {
       <form onSubmit={this.handleSubmit} action="" ref={form => {this.props.formSubmit && this.props.formSubmit(this.handleSubmit)}}>
         {children}
         <input type="submit" style={{position: 'absolute', left: '-9999px'}} />
+        <Snackbar
+          open={this.props.error}
+          message={this.props.error}
+          autoHideDuration={4000}
+        />
       </form>
     )
   }
@@ -70,9 +76,10 @@ Form.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   const { forms } = state
-  const { fields, lastUpdated } = (forms && forms.find(f => f.name === ownProps.name)) || {}
+  const { fields, error, lastUpdated } = (forms && forms.find(f => f.name === ownProps.name)) || {}
   return {
     fields,
+    error,
     lastUpdated
   }
 }

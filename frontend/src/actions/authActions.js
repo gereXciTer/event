@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-import { setLoginRedirect, api } from './index'
+import { setLoginRedirect, api, setError } from './index'
 
 const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
@@ -45,6 +45,7 @@ function doLogin(user, cb) {
         dispatch(setLoginRedirect(null))
       })
       .catch(function(error, res) {
+        dispatch(setError('loginForm', '', 'Connection error'))
         console.log('request failed', error)
       })
     

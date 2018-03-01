@@ -37,6 +37,12 @@ function form(state = {
       if(state.name !== action.formName){
         return state
       }
+      if(!action.fieldName) {
+        return {...state,
+          lastUpdated: Date.now(),
+          error: !(action.value || action.validator) && action.error
+        }
+      }
       if(!state.fields.some(f => f.name === action.fieldName)){
         return {...state,
         lastUpdated: Date.now(),
