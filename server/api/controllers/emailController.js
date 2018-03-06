@@ -1,7 +1,6 @@
 const SparkPost = require('sparkpost');
+//using SPARKPOST_API_KEY environment variable
 const client = new SparkPost();
-
-
 
 // const nodemailer = require('nodemailer');
 // const smtpTransport = require('nodemailer-smtp-transport');

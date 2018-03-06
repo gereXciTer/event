@@ -99,6 +99,30 @@ exports.create_invite = function(req, res){
 }
 
 exports.delete_invite = function(req, res){
+  Invite.findById(req.params.inviteId, function(err, invite){
+    if(err || (invite && !invite.owner.equals(req.user._id))){
+      return res.status(401).send(err || {success: false});
+    }
+    Event.findById(invite.event)
+      .populate('drops')
+      .exec(function(err, event){
+        event.drops = event.drops.map(function(drop){
+          var inviteConverted = false;
+          drop.split = drop.split.filter(function(split){
+            var inviteFound = split.invite && split.invite.equals(invite._id)
+            if(inviteFound) {
+              inviteConverted = true;              
+            }
+            return !inviteFound;
+          })
+          if(inviteConverted){
+            drop.save()
+          }
+          return drop;
+        })
+        event.save()
+      })
+  });
   Invite.findByIdAndRemove(req.params.inviteId, function(err, invite){
     if(err || (invite && !invite.owner.equals(req.user._id))){
       return res.status(401).send(err || {success: false});
