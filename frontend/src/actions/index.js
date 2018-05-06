@@ -1,4 +1,4 @@
-const baseApiUrl = window.location.protocol + `\/\/` + window.location.host + `:3001`
+const baseApiUrl = window.location.protocol + `\/\/` + window.location.hostname + `:3001`
 export const api = {
   getEvent: (id) => `${baseApiUrl}/events/${id}`,
   getEvents: () => `${baseApiUrl}/events/`,

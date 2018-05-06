@@ -14,6 +14,6 @@ var InviteSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+}, { usePushEach: true });
 
 module.exports = mongoose.model('Invite', InviteSchema, "invites");

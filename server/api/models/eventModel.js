@@ -26,7 +26,7 @@ var EventSchema = new Schema({
     }],
     default: ['pending']
   }
-});
+}, { usePushEach: true });
 
 EventSchema.methods.availableTo = function(userId) {
   var isOwner = this.owner && this.owner.equals(userId);

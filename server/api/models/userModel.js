@@ -27,7 +27,7 @@ var UserSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+}, { usePushEach: true });
 
 UserSchema.pre('save', function(next) {
   var user = this;

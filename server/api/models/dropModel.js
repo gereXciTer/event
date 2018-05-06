@@ -24,7 +24,7 @@ var DropSchema = new Schema({
   amount: {
     type: Number
   }
-});
+}, { usePushEach: true });
 
 DropSchema.methods.belongsTo = function(userId) {
   return this.owner && this.owner.equals(userId);
